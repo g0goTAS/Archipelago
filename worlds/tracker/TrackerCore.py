@@ -444,7 +444,7 @@ class TrackerCore():
         if go_mode_in_logic:
             go_mode_status = "Yes"
         elif go_mode_out_of_logic:
-            go_mode_status = "Out of Logic"
+            go_mode_status = "Glitched"
         else:
             go_mode_status = "No"
         return CurrentTrackerState(all_items, prog_items, glitches_locations, events, callback_list, regions, unconnected_entrances, readable_locations, hinted_locations, state, go_mode_status)

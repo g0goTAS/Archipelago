@@ -55,19 +55,16 @@ def get_ut_color(color: str)->str:
         hinted_glitched: ClassVar[str] = StringProperty("") 
         excluded: ClassVar[str] = StringProperty("")
         unconnected: ClassVar[str] = StringProperty("")
-        go_mode: ClassVar[str] = StringProperty("")
-        out_of_logic_go_mode: ClassVar[str] = StringProperty("")
-        not_go_mode: ClassVar[str] = StringProperty("")
     if not hasattr(get_ut_color,"utTextColor"):
         get_ut_color.utTextColor = UTTextColor()
     return str(getattr(get_ut_color.utTextColor,color,"DD00FF"))
 
 def get_go_mode_color(go_mode_status: str)->str:
     if go_mode_status == "No":
-        return get_ut_color("not_go_mode")
-    elif go_mode_status == "Out of Logic":
-        return get_ut_color("out_of_logic_go_mode")
-    return get_ut_color("go_mode")
+        return get_ut_color("out_of_logic")
+    elif go_mode_status == "Glitched":
+        return get_ut_color("glitched")
+    return get_ut_color("in_logic")
     
     
 class TrackerCommandProcessor(ClientCommandProcessor):
@@ -1003,7 +1000,7 @@ class TrackerGameContext(CommonContext):
             self.tracker_logic_locs_label = MDLabel(text="In Logic: 0", halign="center")
             self.tracker_glitched_locs_label = MDLabel(text=f"Glitched: [color={get_ut_color('glitched')}]0[/color]",  halign="center")
             self.tracker_hinted_locs_label = MDLabel(text=f"Hinted: [color={get_ut_color('hinted_in_logic')}]0[/color]", halign="center")
-            self.tracker_go_mode_label = MDLabel(text=f"Go Mode: [color={get_ut_color('not_go_mode')}]No[/color]", halign="center")
+            self.tracker_go_mode_label = MDLabel(text=f"Go Mode: [color={get_ut_color('out_of_logic')}]No[/color]", halign="center")
             self.tracker_glitched_locs_label.markup = True
             self.tracker_hinted_locs_label.markup = True
             self.tracker_go_mode_label.markup = True
@@ -1361,7 +1358,7 @@ class TrackerGameContext(CommonContext):
             if hasattr(self, "tracker_hinted_locs_label"):
                 self.tracker_hinted_locs_label.text = f"Hinted: [color={get_ut_color('hinted_in_logic')}]0[/color]"
             if hasattr(self, "tracker_go_mode_label"):
-                self.tracker_go_mode_label.text = f"Go Mode: [color={get_ut_color('not_go_mode')}]No[/color]"
+                self.tracker_go_mode_label.text = f"Go Mode: [color={get_ut_color('out_of_logic')}]No[/color]"
             self.tracker_core.disconnect()
         self.local_items.clear()
 
